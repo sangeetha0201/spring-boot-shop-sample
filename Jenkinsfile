@@ -1,7 +1,8 @@
 pipeline {
     environment {
-        registry = "sandeep4642/shop-example"
-        registryCredential = 'dockerhub'
+        registry = "sandeep4642.azurecr.io"
+        registryrepo = "/shop-sample"
+        registryCredential = 'azure-container-registry'
         dockerImage = ''
       }
     agent { label "slave-1"}
@@ -14,7 +15,7 @@ pipeline {
         stage('Building Docker image') {
             steps{
               script {
-                dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                dockerImage = docker.build registry + registryrepo ":$BUILD_NUMBER"
               }
             }
         
