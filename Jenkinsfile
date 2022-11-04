@@ -1,7 +1,7 @@
 pipeline {
     environment {
         registry = "sandeep4642.azurecr.io"
-        registryrepo = "/shop-sample"
+        registryrepo = "/shop/shop-sample"
         registryCredential = 'azure-container-registry'
         dockerImage = ''
       }
@@ -15,7 +15,7 @@ pipeline {
         stage('Building Docker image') {
             steps{
               script {
-                dockerImage = docker.build registry + registryrepo ":$BUILD_NUMBER"
+                dockerImage = docker.build registry + registryrepo + ":$BUILD_NUMBER"
               }
             }
         
@@ -23,7 +23,7 @@ pipeline {
         stage('Deploy push') {
             steps{
               script {
-                docker.withRegistry( '', registryCredential ) {
+                docker.withRegistry( 'https://' + registry + registryrepo + ":$BUILD_NUMBER", registryCredential ) {
                   dockerImage.push()
                 }
               }
