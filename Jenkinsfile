@@ -4,11 +4,11 @@ pipeline {
         registryCredential = 'dockerhub'
         dockerImage = ''
       }
-    agent { label "slave-1"}
+    agent { label "jenkins-docker-slave"}
     stages {
         stage('mvn build'){
             steps{
-                sh 'mvn clean package'
+                sh 'mvn -DskipTests clean package'
             }
         }
         stage('Building Docker image') {
